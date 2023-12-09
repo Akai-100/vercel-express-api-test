@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const productRouter = require('./routes/productRoute');
+const productRouter = require("./routes/productRoute");
 
 const app = express();
 
@@ -28,6 +28,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Wlecome to vercel express server");
+});
+
+app.get("/users", (req, res) => {
+  res.send({
+    users: [
+      { id: 1, name: "user 1" },
+      { id: 2, name: "user 2" },
+    ],
+  });
 });
 
 app.use("/products", productRouter);
