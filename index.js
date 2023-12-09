@@ -2,10 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const productRouter = require('./routes/productRoute');
+
 const app = express();
 
 const mongoURL = process.env.MONGODB_URL || "";
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3003;
 
 const connectDB = async () => {
   try {
@@ -21,17 +23,11 @@ app.listen(PORT, () => {
   connectDB();
 });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.send("Wlecome to vercel express server");
 });
 
-app.get("/products", (req, res) => {
-  res.send({
-    products: [
-      { id: 1, title: "product 1", price: 100 },
-      { id: 2, title: "product 2", price: 200 },
-      { id: 3, title: "product 3", price: 300 },
-      { id: 4, title: "product 4", price: 400 },
-    ],
-  });
-});
+app.use("/products", productRouter);
